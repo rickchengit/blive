@@ -31,6 +31,7 @@ import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.Grid3x3
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Radio
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ShortText
@@ -59,6 +60,7 @@ object NiaIcons {
     val ExpandLess = Icons.Rounded.ExpandLess
     val Fullscreen = Icons.Rounded.Fullscreen
     val Grid3x3 = Icons.Rounded.Grid3x3
+    val Radio = Icons.Rounded.Radio
     val MenuBook = R.drawable.ic_menu_book
     val MenuBookBorder = R.drawable.ic_menu_book_border
     val MoreVert = Icons.Default.MoreVert

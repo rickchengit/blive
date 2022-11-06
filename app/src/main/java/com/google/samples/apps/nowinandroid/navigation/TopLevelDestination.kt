@@ -24,6 +24,7 @@ import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
 import com.google.samples.apps.nowinandroid.feature.bookmarks.R as bookmarksR
 import com.google.samples.apps.nowinandroid.feature.foryou.R as forYouR
 import com.google.samples.apps.nowinandroid.feature.interests.R as interestsR
+import com.blankmemo.blive.feature.radio.R as radioR
 
 /**
  * Type for the top level destinations in the application. Each of these destinations
@@ -53,5 +54,11 @@ enum class TopLevelDestination(
         unselectedIcon = ImageVectorIcon(NiaIcons.Grid3x3),
         iconTextId = interestsR.string.interests,
         titleTextId = interestsR.string.interests
+    ),
+    RADIO(
+        selectedIcon = ImageVectorIcon(NiaIcons.Radio),
+        unselectedIcon = ImageVectorIcon(NiaIcons.Radio),
+        iconTextId = radioR.string.radio,
+        titleTextId = radioR.string.radio
     )
 }
