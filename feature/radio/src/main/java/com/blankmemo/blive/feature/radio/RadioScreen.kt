@@ -1,43 +1,28 @@
 /*
  * Copyright 2022 The Android Open Source Project
  *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *       https://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.blankmemo.blive.feature.radio
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.blankmemo.blive.feature.radio.R.string
-import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaBackground
-import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaLoadingWheel
-import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaTab
-import com.google.samples.apps.nowinandroid.core.designsystem.component.NiaTabRow
-import com.google.samples.apps.nowinandroid.core.designsystem.theme.NiaTheme
-import com.google.samples.apps.nowinandroid.core.domain.model.FollowableAuthor
-import com.google.samples.apps.nowinandroid.core.domain.model.FollowableTopic
-import com.google.samples.apps.nowinandroid.core.model.data.previewAuthors
-import com.google.samples.apps.nowinandroid.core.model.data.previewTopics
-import com.google.samples.apps.nowinandroid.core.ui.DevicePreviews
 import com.google.samples.apps.nowinandroid.core.ui.TrackDisposableJank
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -108,8 +93,8 @@ internal fun InterestsScreen(
 //    }
 }
 
-//@Composable
-//private fun InterestsContent(
+// @Composable
+// private fun InterestsContent(
 //    tabState: InterestsTabState,
 //    switchTab: (Int) -> Unit,
 //    uiState: InterestsUiState.Interests,
@@ -118,7 +103,7 @@ internal fun InterestsScreen(
 //    navigateToAuthor: (String) -> Unit,
 //    followAuthor: (String, Boolean) -> Unit,
 //    modifier: Modifier = Modifier
-//) {
+// ) {
 //    Column(modifier) {
 //        NiaTabRow(selectedTabIndex = tabState.currentIndex) {
 //            tabState.titles.forEachIndexed { index, titleId ->
@@ -146,16 +131,16 @@ internal fun InterestsScreen(
 //            }
 //        }
 //    }
-//}
+// }
 
-//@Composable
-//private fun InterestsEmptyScreen() {
+// @Composable
+// private fun InterestsEmptyScreen() {
 //    Text(text = stringResource(id = string.interests_empty_header))
-//}
+// }
 //
-//@DevicePreviews
-//@Composable
-//fun InterestsScreenPopulated() {
+// @DevicePreviews
+// @Composable
+// fun InterestsScreenPopulated() {
 //    NiaTheme {
 //        NiaBackground {
 //            InterestsScreen(
@@ -175,11 +160,11 @@ internal fun InterestsScreen(
 //            )
 //        }
 //    }
-//}
+// }
 //
-//@DevicePreviews
-//@Composable
-//fun InterestsScreenLoading() {
+// @DevicePreviews
+// @Composable
+// fun InterestsScreenLoading() {
 //    NiaTheme {
 //        NiaBackground {
 //            InterestsScreen(
@@ -196,11 +181,11 @@ internal fun InterestsScreen(
 //            )
 //        }
 //    }
-//}
+// }
 //
-//@DevicePreviews
-//@Composable
-//fun InterestsScreenEmpty() {
+// @DevicePreviews
+// @Composable
+// fun InterestsScreenEmpty() {
 //    NiaTheme {
 //        NiaBackground {
 //            InterestsScreen(
@@ -217,4 +202,4 @@ internal fun InterestsScreen(
 //            )
 //        }
 //    }
-//}
+// }
