@@ -19,8 +19,8 @@ package com.google.samples.apps.nowinandroid.core.result
 import app.cash.turbine.test
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class ResultKtTest {
 
@@ -38,11 +38,12 @@ class ResultKtTest {
                 when (val errorResult = awaitItem()) {
                     is Result.Error -> assertEquals(
                         "Test Done",
-                        errorResult.exception?.message
+                        errorResult.exception?.message,
                     )
                     Result.Loading,
-                    is Result.Success -> throw IllegalStateException(
-                        "The flow should have emitted an Error Result"
+                    is Result.Success,
+                    -> throw IllegalStateException(
+                        "The flow should have emitted an Error Result",
                     )
                 }
 

@@ -17,18 +17,17 @@
 package com.google.samples.apps.nowinandroid.core.data.testdoubles
 
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
-import com.google.samples.apps.nowinandroid.core.network.fake.FakeDataSource
-import com.google.samples.apps.nowinandroid.core.network.model.NetworkAuthor
+import com.google.samples.apps.nowinandroid.core.network.fake.FakeNiaNetworkDataSource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkChangeList
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkNewsResource
 import com.google.samples.apps.nowinandroid.core.network.model.NetworkTopic
-import kotlinx.serialization.decodeFromString
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.serialization.json.Json
 
 enum class CollectionType {
     Topics,
-    Authors,
-    NewsResources
+    NewsResources,
 }
 
 /**
@@ -36,22 +35,18 @@ enum class CollectionType {
  */
 class TestNiaNetworkDataSource : NiaNetworkDataSource {
 
-    private val networkJson = Json
+    private val source = FakeNiaNetworkDataSource(
+        UnconfinedTestDispatcher(),
+        Json { ignoreUnknownKeys = true },
+    )
 
-    private val allTopics =
-        networkJson.decodeFromString<List<NetworkTopic>>(FakeDataSource.topicsData)
+    private val allTopics = runBlocking { source.getTopics() }
 
-    private val allAuthors =
-        networkJson.decodeFromString<List<NetworkAuthor>>(FakeDataSource.authors)
-
-    private val allNewsResources =
-        networkJson.decodeFromString<List<NetworkNewsResource>>(FakeDataSource.data)
+    private val allNewsResources = runBlocking { source.getNewsResources() }
 
     private val changeLists: MutableMap<CollectionType, List<NetworkChangeList>> = mutableMapOf(
         CollectionType.Topics to allTopics
             .mapToChangeList(idGetter = NetworkTopic::id),
-        CollectionType.Authors to allAuthors
-            .mapToChangeList(idGetter = NetworkAuthor::id),
         CollectionType.NewsResources to allNewsResources
             .mapToChangeList(idGetter = NetworkNewsResource::id),
     )
@@ -59,26 +54,17 @@ class TestNiaNetworkDataSource : NiaNetworkDataSource {
     override suspend fun getTopics(ids: List<String>?): List<NetworkTopic> =
         allTopics.matchIds(
             ids = ids,
-            idGetter = NetworkTopic::id
-        )
-
-    override suspend fun getAuthors(ids: List<String>?): List<NetworkAuthor> =
-        allAuthors.matchIds(
-            ids = ids,
-            idGetter = NetworkAuthor::id
+            idGetter = NetworkTopic::id,
         )
 
     override suspend fun getNewsResources(ids: List<String>?): List<NetworkNewsResource> =
         allNewsResources.matchIds(
             ids = ids,
-            idGetter = NetworkNewsResource::id
+            idGetter = NetworkNewsResource::id,
         )
 
     override suspend fun getTopicChangeList(after: Int?): List<NetworkChangeList> =
         changeLists.getValue(CollectionType.Topics).after(after)
-
-    override suspend fun getAuthorChangeList(after: Int?): List<NetworkChangeList> =
-        changeLists.getValue(CollectionType.Authors).after(after)
 
     override suspend fun getNewsResourceChangeList(after: Int?): List<NetworkChangeList> =
         changeLists.getValue(CollectionType.NewsResources).after(after)
@@ -116,7 +102,7 @@ fun List<NetworkChangeList>.after(version: Int?): List<NetworkChangeList> =
  */
 private fun <T> List<T>.matchIds(
     ids: List<String>?,
-    idGetter: (T) -> String
+    idGetter: (T) -> String,
 ) = when (ids) {
     null -> this
     else -> ids.toSet().let { idSet -> this.filter { idSet.contains(idGetter(it)) } }
@@ -127,7 +113,7 @@ private fun <T> List<T>.matchIds(
  * [after] simulates which models have changed by excluding items before it
  */
 private fun <T> List<T>.mapToChangeList(
-    idGetter: (T) -> String
+    idGetter: (T) -> String,
 ) = mapIndexed { index, item ->
     NetworkChangeList(
         id = idGetter(item),

@@ -17,7 +17,7 @@
 package com.google.samples.apps.nowinandroid.feature.topic
 
 import androidx.lifecycle.SavedStateHandle
-import com.google.samples.apps.nowinandroid.core.domain.GetSaveableNewsResourcesStreamUseCase
+import com.google.samples.apps.nowinandroid.core.domain.GetUserNewsResourcesUseCase
 import com.google.samples.apps.nowinandroid.core.domain.model.FollowableTopic
 import com.google.samples.apps.nowinandroid.core.model.data.NewsResource
 import com.google.samples.apps.nowinandroid.core.model.data.NewsResourceType.Video
@@ -35,11 +35,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 /**
  * To learn more about how this test handles Flows created with stateIn, see
@@ -53,9 +53,9 @@ class TopicViewModelTest {
     private val userDataRepository = TestUserDataRepository()
     private val topicsRepository = TestTopicsRepository()
     private val newsRepository = TestNewsRepository()
-    private val getSaveableNewsResourcesStreamUseCase = GetSaveableNewsResourcesStreamUseCase(
+    private val getUserNewsResourcesUseCase = GetUserNewsResourcesUseCase(
         newsRepository = newsRepository,
-        userDataRepository = userDataRepository
+        userDataRepository = userDataRepository,
     )
     private lateinit var viewModel: TopicViewModel
 
@@ -66,9 +66,13 @@ class TopicViewModelTest {
             stringDecoder = FakeStringDecoder(),
             userDataRepository = userDataRepository,
             topicsRepository = topicsRepository,
-            getSaveableNewsResourcesStream = getSaveableNewsResourcesStreamUseCase
+            getSaveableNewsResources = getUserNewsResourcesUseCase,
         )
     }
+
+    @Test
+    fun topicId_matchesTopicIdFromSavedStateHandle() =
+        assertEquals(testInputTopics[0].topic.id, viewModel.topicId)
 
     @Test
     fun uiStateTopic_whenSuccess_matchesTopicFromRepository() = runTest {
@@ -77,14 +81,13 @@ class TopicViewModelTest {
         topicsRepository.sendTopics(testInputTopics.map(FollowableTopic::topic))
         userDataRepository.setFollowedTopicIds(setOf(testInputTopics[1].topic.id))
         val item = viewModel.topicUiState.value
-        assertTrue(item is TopicUiState.Success)
+        assertIs<TopicUiState.Success>(item)
 
-        val successTopicState = item as TopicUiState.Success
         val topicFromRepository = topicsRepository.getTopic(
-            testInputTopics[0].topic.id
+            testInputTopics[0].topic.id,
         ).first()
 
-        assertEquals(topicFromRepository, successTopicState.followableTopic.topic)
+        assertEquals(topicFromRepository, item.followableTopic.topic)
 
         collectJob.cancel()
     }
@@ -119,8 +122,8 @@ class TopicViewModelTest {
             val topicUiState = viewModel.topicUiState.value
             val newsUiState = viewModel.newUiState.value
 
-            assertTrue(topicUiState is TopicUiState.Success)
-            assertTrue(newsUiState is NewsUiState.Loading)
+            assertIs<TopicUiState.Success>(topicUiState)
+            assertIs<NewsUiState.Loading>(newsUiState)
 
             collectJob.cancel()
         }
@@ -132,7 +135,7 @@ class TopicViewModelTest {
                 combine(
                     viewModel.topicUiState,
                     viewModel.newUiState,
-                    ::Pair
+                    ::Pair,
                 ).collect()
             }
             topicsRepository.sendTopics(testInputTopics.map { it.topic })
@@ -141,8 +144,8 @@ class TopicViewModelTest {
             val topicUiState = viewModel.topicUiState.value
             val newsUiState = viewModel.newUiState.value
 
-            assertTrue(topicUiState is TopicUiState.Success)
-            assertTrue(newsUiState is NewsUiState.Success)
+            assertIs<TopicUiState.Success>(topicUiState)
+            assertIs<NewsUiState.Success>(newsUiState)
 
             collectJob.cancel()
         }
@@ -159,7 +162,7 @@ class TopicViewModelTest {
 
         assertEquals(
             TopicUiState.Success(followableTopic = testOutputTopics[0]),
-            viewModel.topicUiState.value
+            viewModel.topicUiState.value,
         )
 
         collectJob.cancel()
@@ -184,7 +187,7 @@ private val testInputTopics = listOf(
             url = TOPIC_URL,
             imageUrl = TOPIC_IMAGE_URL,
         ),
-        isFollowed = true
+        isFollowed = true,
     ),
     FollowableTopic(
         Topic(
@@ -195,7 +198,7 @@ private val testInputTopics = listOf(
             url = TOPIC_URL,
             imageUrl = TOPIC_IMAGE_URL,
         ),
-        isFollowed = false
+        isFollowed = false,
     ),
     FollowableTopic(
         Topic(
@@ -206,8 +209,8 @@ private val testInputTopics = listOf(
             url = TOPIC_URL,
             imageUrl = TOPIC_IMAGE_URL,
         ),
-        isFollowed = false
-    )
+        isFollowed = false,
+    ),
 )
 
 private val testOutputTopics = listOf(
@@ -220,7 +223,7 @@ private val testOutputTopics = listOf(
             url = TOPIC_URL,
             imageUrl = TOPIC_IMAGE_URL,
         ),
-        isFollowed = true
+        isFollowed = true,
     ),
     FollowableTopic(
         Topic(
@@ -231,7 +234,7 @@ private val testOutputTopics = listOf(
             url = TOPIC_URL,
             imageUrl = TOPIC_IMAGE_URL,
         ),
-        isFollowed = true
+        isFollowed = true,
     ),
     FollowableTopic(
         Topic(
@@ -242,8 +245,8 @@ private val testOutputTopics = listOf(
             url = TOPIC_URL,
             imageUrl = TOPIC_IMAGE_URL,
         ),
-        isFollowed = false
-    )
+        isFollowed = false,
+    ),
 )
 
 private val sampleNewsResources = listOf(
@@ -266,8 +269,7 @@ private val sampleNewsResources = listOf(
                 longDescription = "long description",
                 url = "URL",
                 imageUrl = "image URL",
-            )
+            ),
         ),
-        authors = emptyList()
-    )
+    ),
 )

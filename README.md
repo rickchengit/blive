@@ -1,26 +1,28 @@
 ![Now in Android](docs/images/nia-splash.jpg "Now in Android")
 
-Now in Android App [Work in progress 🚧]
+<a href="https://play.google.com/store/apps/details?id=com.google.samples.apps.nowinandroid"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="70"></a>
+
+Now in Android App
 ==================
 
 **Learn how this app was designed and built in the [design case study](https://goo.gle/nia-figma), [architecture learning journey](docs/ArchitectureLearningJourney.md) and [modularization learning journey](docs/ModularizationLearningJourney.md).**
 
 This is the repository for the [Now in Android](https://developer.android.com/series/now-in-android)
-app.
+app. It is a **work in progress** 🚧.
 
 **Now in Android** is a fully functional Android app built entirely with Kotlin and Jetpack Compose. It
 follows Android design and development best practices and is intended to be a useful reference
 for developers. As a running app, it's intended to help developers keep up-to-date with the world
 of Android development by providing regular news updates.
 
-The app is currently in early stage development and is not yet available on the Play Store.
+The app is currently in development. The `demoRelease` variant is [available on the Play Store in open beta](https://play.google.com/store/apps/details?id=com.google.samples.apps.nowinandroid).
 
 # Features
 
 **Now in Android** displays content from the
 [Now in Android](https://developer.android.com/series/now-in-android) series. Users can browse for
 links to recent videos, articles and other content. Users can also follow topics they are interested
-in or follow specific authors.
+in.
 
 ## Screenshots
 
@@ -28,9 +30,15 @@ in or follow specific authors.
 
 # Development Environment
 
-**Now in Android** uses the Gradle build system and can be imported directly into the latest stable
-version of Android Studio (available [here](https://developer.android.com/studio)). The `debug`
-build can be built and run using the default configuration.
+**Now in Android** uses the Gradle build system and can be imported directly into Android Studio (make sure you are using the latest stable version available [here](https://developer.android.com/studio)). 
+
+Change the run configuration to `app`.
+
+![image](https://user-images.githubusercontent.com/873212/210559920-ef4a40c5-c8e0-478b-bb00-4879a8cf184a.png)
+
+The `demoDebug` and `demoRelease` build variants can be built and run (the `prod` variants use a backend server which is not currently publicly available).
+
+![image](https://user-images.githubusercontent.com/873212/210560507-44045dc5-b6d5-41ca-9746-f0f7acf22f8e.png)
 
 Once you're up and running, you can refer to the learning journeys below to get a better
 understanding of which libraries and tools are being used, the reasoning behind the approaches to

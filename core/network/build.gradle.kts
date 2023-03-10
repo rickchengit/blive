@@ -27,6 +27,11 @@ android {
         buildConfig = true
     }
     namespace = "com.google.samples.apps.nowinandroid.core.network"
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 secrets {
@@ -46,4 +51,7 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
+
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.svg)
 }

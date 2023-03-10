@@ -26,33 +26,45 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.core.content.getSystemService
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
+import javax.inject.Inject
 
 class ConnectivityManagerNetworkMonitor @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) : NetworkMonitor {
-    override val isOnline: Flow<Boolean> = callbackFlow<Boolean> {
+    override val isOnline: Flow<Boolean> = callbackFlow {
+        val connectivityManager = context.getSystemService<ConnectivityManager>()
+
+        /**
+         * The callback's methods are invoked on changes to *any* network, not just the active
+         * network. So to check for network connectivity, one must query the active network of the
+         * ConnectivityManager.
+         */
         val callback = object : NetworkCallback() {
             override fun onAvailable(network: Network) {
-                channel.trySend(true)
+                channel.trySend(connectivityManager.isCurrentlyConnected())
             }
 
             override fun onLost(network: Network) {
-                channel.trySend(false)
+                channel.trySend(connectivityManager.isCurrentlyConnected())
+            }
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities,
+            ) {
+                channel.trySend(connectivityManager.isCurrentlyConnected())
             }
         }
-
-        val connectivityManager = context.getSystemService<ConnectivityManager>()
 
         connectivityManager?.registerNetworkCallback(
             Builder()
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .build(),
-            callback
+            callback,
         )
 
         channel.trySend(connectivityManager.isCurrentlyConnected())

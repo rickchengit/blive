@@ -30,9 +30,9 @@ import androidx.metrics.performance.PerformanceMetricsState.Holder
 import kotlinx.coroutines.CoroutineScope
 
 /**
- * Retrieves [PerformanceMetricsState.MetricsStateHolder] from current [LocalView] and
+ * Retrieves [PerformanceMetricsState.Holder] from current [LocalView] and
  * remembers it until the View changes.
- * @see PerformanceMetricsState.getForHierarchy
+ * @see PerformanceMetricsState.getHolderForHierarchy
  */
 @Composable
 fun rememberMetricsStateHolder(): Holder {
@@ -51,7 +51,7 @@ fun rememberMetricsStateHolder(): Holder {
 @Composable
 fun TrackJank(
     vararg keys: Any?,
-    reportMetric: suspend CoroutineScope.(state: Holder) -> Unit
+    reportMetric: suspend CoroutineScope.(state: Holder) -> Unit,
 ) {
     val metrics = rememberMetricsStateHolder()
     LaunchedEffect(metrics, *keys) {
@@ -66,7 +66,7 @@ fun TrackJank(
 @Composable
 fun TrackDisposableJank(
     vararg keys: Any?,
-    reportMetric: DisposableEffectScope.(state: Holder) -> DisposableEffectResult
+    reportMetric: DisposableEffectScope.(state: Holder) -> DisposableEffectResult,
 ) {
     val metrics = rememberMetricsStateHolder()
     DisposableEffect(metrics, *keys) {
