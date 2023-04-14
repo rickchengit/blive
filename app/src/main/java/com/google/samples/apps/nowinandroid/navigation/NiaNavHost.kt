@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.blankmemo.blive.feature.search.navigation.searchScreen
 import com.google.samples.apps.nowinandroid.feature.bookmarks.navigation.bookmarksScreen
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.forYouNavigationRoute
 import com.google.samples.apps.nowinandroid.feature.foryou.navigation.forYouScreen
@@ -59,5 +60,6 @@ fun NiaNavHost(
                 )
             },
         )
+        searchScreen(onTopicClick = {})
     }
 }

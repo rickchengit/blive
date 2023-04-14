@@ -21,6 +21,7 @@ import com.google.samples.apps.nowinandroid.core.designsystem.icon.Icon
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.Icon.DrawableResourceIcon
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.Icon.ImageVectorIcon
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.NiaIcons
+import com.blankmemo.blive.feature.search.R as searchR
 import com.google.samples.apps.nowinandroid.feature.bookmarks.R as bookmarksR
 import com.google.samples.apps.nowinandroid.feature.foryou.R as forYouR
 import com.google.samples.apps.nowinandroid.feature.interests.R as interestsR
@@ -53,5 +54,11 @@ enum class TopLevelDestination(
         unselectedIcon = ImageVectorIcon(NiaIcons.Grid3x3),
         iconTextId = interestsR.string.interests,
         titleTextId = interestsR.string.interests,
+    ),
+    SEARCH(
+        selectedIcon = ImageVectorIcon(NiaIcons.Search),
+        unselectedIcon = ImageVectorIcon(NiaIcons.Search),
+        iconTextId = searchR.string.search,
+        titleTextId = searchR.string.search,
     ),
 }

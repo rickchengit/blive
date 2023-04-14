@@ -33,6 +33,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
+import com.blankmemo.blive.feature.search.navigation.navigateToSearch
+import com.blankmemo.blive.feature.search.navigation.searchRoute
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.ui.TrackDisposableJank
 import com.google.samples.apps.nowinandroid.feature.bookmarks.navigation.bookmarksRoute
@@ -45,6 +47,7 @@ import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.BOOKMARKS
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.FOR_YOU
 import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.INTERESTS
+import com.google.samples.apps.nowinandroid.navigation.TopLevelDestination.SEARCH
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -79,6 +82,7 @@ class NiaAppState(
             forYouNavigationRoute -> FOR_YOU
             bookmarksRoute -> BOOKMARKS
             interestsRoute -> INTERESTS
+            searchRoute -> SEARCH
             else -> null
         }
 
@@ -132,6 +136,7 @@ class NiaAppState(
                 FOR_YOU -> navController.navigateToForYou(topLevelNavOptions)
                 BOOKMARKS -> navController.navigateToBookmarks(topLevelNavOptions)
                 INTERESTS -> navController.navigateToInterestsGraph(topLevelNavOptions)
+                SEARCH -> navController.navigateToSearch(topLevelNavOptions)
             }
         }
     }
