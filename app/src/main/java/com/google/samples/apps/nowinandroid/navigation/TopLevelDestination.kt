@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.navigation
 
+import com.blankmemo.blive.feature.radio.R as radioR
 import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.Icon
 import com.google.samples.apps.nowinandroid.core.designsystem.icon.Icon.DrawableResourceIcon
@@ -54,4 +55,10 @@ enum class TopLevelDestination(
         iconTextId = interestsR.string.interests,
         titleTextId = interestsR.string.interests,
     ),
+    RADIO(
+        selectedIcon = ImageVectorIcon(NiaIcons.Radio),
+        unselectedIcon = ImageVectorIcon(NiaIcons.Radio),
+        iconTextId = radioR.string.radio,
+        titleTextId = radioR.string.radio
+    )
 }
